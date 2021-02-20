@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+      
+</head>
+
+<style>
+
+textarea {
+  resize: none;
+}
+
+div {
+    margin: auto;
+    width: 80%;
+    border: 2px solid #c2dada;
+    padding: 5px;
+    background-color: #c2dada;
+}
+
+table, th {
+  border: 0px solid rgb(211, 228, 226);  
+  background-color: #c2dada;
+  padding: px;
+  vertical-align: top;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+
+td {
+  display: table-cell;
+  vertical-align: inherit;
+}
+
+</style>
+
+<script>
+
+    var counter = 0;
+    var max = 57;
+    let numbersMap = new Map();
+
+    function changeImage(element, number) {
+        
+        var image = "artes/" + number + ".png";
+        var imageSelected = "artes/" + number + "blue.png";
+        
+        var valueT = element.bln ? image : imageSelected;
+        
+        if(valueT.includes("blue")){
+            if(counter < 6){
+                element.src = element.bln ? image : imageSelected;
+                element.bln = !element.bln;
+
+                numbersMap.set(number, imageSelected);
+                counter ++;
+                printSelectedNumbers();
+            }
+        }
+        else{
+            if(counter > 0){
+                element.src = element.bln ? image : imageSelected;
+                element.bln = !element.bln;
+                numbersMap.delete(number);
+                counter--;
+                printSelectedNumbers();
+            }
+        }        
+        
+        //document.getElementById("count").value = counter;
+    }
+
+    function printSelectedNumbers() {
+        
+        var i=0;
+        for (let [key, value] of numbersMap) {
+            i++;
+            document.getElementById("num"+i).src = value;
+        }
+        //console.log(i);
+        for (var j = i + 1; j < 7; j++) {
+            document.getElementById("num"+j).src = "artes/number_ganamas.png";
+        }
+        
+    }
+
+
+    function playNow(element) {
+        
+        if(numbersMap.size > 5){
+            if(confirm('Deseas Jugar?')){
+                document.getElementById('messages').value = "FELICIDADES!! Se registrará el tablero para jugar en el sorteo del día de mañana. Mucha Suerte!";
+                insertGameOnTable();
+                numbersMap.clear();
+                printSelectedNumbers();
+                clearBoard();                
+                counter = 0;
+            }
+        }
+        else {
+            document.getElementById('messages').value = "Faltan numeros por seleccionar en el tablero";
+        }
+    }
+
+    function clearBoard(){
+        for(var i=1; i < max; i++){
+            document.getElementById("c"+i).src = "artes/" + i + ".png";
+            document.getElementById("c"+i).bln = undefined
+        }
+    }
+
+    function insertGameOnTable(){
+        // Find a <table> element with id="myTable":
+        var table = document.getElementById("myTickets");
+
+        // Create an empty <tr> element and add it to the 1st position of the table:
+        var row = table.insertRow(1);
+
+        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+
+        var i=0;
+        var numbers = "";
+        for (let [key, value] of numbersMap) {
+            i++;
+            numbers += "<img src=\"artes/"+key+"blue.png\" width=\"20\" \height=\"20\">&nbsp";
+        }
+
+        // Add some text to the new cells:
+        cell1.innerHTML = numbers;
+    }
+
+</script>
+<body>
+
+<div>
+  <div>
+    <table style="vertical-align:top" align="center">
+        <tr>
+            <td style="vertical-align:top">
+                <img src="artes/logo.jpg" width="250">
+            </td>   
+        </td>
+    </table>
+    <table style="width:80%;vertical-align:top" align="center">
+        <tr>
+            <td style="vertical-align:top">
+
+                <table>
+                    <tr>
+                        <td><img src="artes/saldo.png" width="250"></td>            
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea id="messages" name="w3review" rows="4" cols="31" readonly>
+                            Selecciona 6 numeros y gana!    
+                            
+                            </textarea>
+                        </td>            
+                    </tr>                      
+                </table>    
+
+            </td>
+            <td>
+
+                <table style="background-color:#f2f7f7;padding:1px;" align="center">
+                    <tr>
+                      <td></td>
+                      <td><img src="artes/10.png" alt="10" width="25" height="25" onclick="changeImage(this, 10)" id="c10"></td>
+                      <td><img src="artes/20.png" alt="18" width="25" height="25" onclick="changeImage(this, 20)" id="c20"></td>
+                      <td><img src="artes/30.png" alt="30" width="25" height="25" onclick="changeImage(this, 30)" id="c30"></td>
+                      <td><img src="artes/40.png" alt="40" width="25" height="25" onclick="changeImage(this, 40)" id="c40"></td>
+                      <td><img src="artes/50.png" alt="50" width="25" height="25" onclick="changeImage(this, 50)" id="c50"></td>
+                    </tr>
+                    <tr>
+                      <td><img src="artes/1.png" alt="1" width="25" height="25" onclick="changeImage(this, 1)" id="c1"></td>
+                      <td><img src="artes/11.png" alt="11" width="25" height="25" onclick="changeImage(this, 11)" id="c11"></td>
+                      <td><img src="artes/21.png" alt="21" width="25" height="25" onclick="changeImage(this, 21)" id="c21"></td>
+                      <td><img src="artes/31.png" alt="31" width="25" height="25" onclick="changeImage(this, 31)" id="c31"></td>
+                      <td><img src="artes/41.png" alt="41" width="25" height="25" onclick="changeImage(this, 41)" id="c41"></td>
+                      <td><img src="artes/51.png" alt="51" width="25" height="25" onclick="changeImage(this, 51)" id="c51"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="artes/2.png" alt="2" width="25" height="25" onclick="changeImage(this, 2)" id="c2"></td>
+                        <td><img src="artes/12.png" alt="12" width="25" height="25" onclick="changeImage(this, 12)" id="c12"></td>
+                        <td><img src="artes/22.png" alt="22" width="25" height="25" onclick="changeImage(this, 22)" id="c22"></td>
+                        <td><img src="artes/32.png" alt="32" width="25" height="25" onclick="changeImage(this, 32)" id="c32"></td>
+                        <td><img src="artes/42.png" alt="42" width="25" height="25" onclick="changeImage(this, 42)" id="c42"></td>
+                        <td><img src="artes/52.png" alt="52" width="25" height="25" onclick="changeImage(this, 52)" id="c52"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="artes/3.png" alt="3" width="25" height="25" onclick="changeImage(this, 3)" id="c3"></td>
+                        <td><img src="artes/13.png" alt="13" width="25" height="25" onclick="changeImage(this, 13)" id="c13"></td>
+                        <td><img src="artes/23.png" alt="23" width="25" height="25" onclick="changeImage(this, 23)" id="c23"></td>
+                        <td><img src="artes/33.png" alt="30" width="25" height="25" onclick="changeImage(this, 33)" id="c33"></td>
+                        <td><img src="artes/43.png" alt="43" width="25" height="25" onclick="changeImage(this, 43)" id="c43"></td>
+                        <td><img src="artes/53.png" alt="53" width="25" height="25" onclick="changeImage(this, 53)" id="c53"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="artes/4.png" alt="4" width="25" height="25" onclick="changeImage(this, 4)" id="c4"></td>
+                        <td><img src="artes/14.png" alt="13" width="25" height="25" onclick="changeImage(this, 14)" id="c14"></td>
+                        <td><img src="artes/24.png" alt="24" width="25" height="25" onclick="changeImage(this, 24)" id="c24"></td>
+                        <td><img src="artes/34.png" alt="34" width="25" height="25" onclick="changeImage(this, 34)" id="c34"></td>
+                        <td><img src="artes/44.png" alt="44" width="25" height="25" onclick="changeImage(this, 44)" id="c44"></td>
+                        <td><img src="artes/54.png" alt="54" width="25" height="25" onclick="changeImage(this, 54)" id="c54"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="artes/5.png" alt="5" width="25" height="25" onclick="changeImage(this, 5)" id="c5"></td>
+                        <td><img src="artes/15.png" alt="14" width="25" height="25" onclick="changeImage(this, 15)" id="c15"></td>
+                        <td><img src="artes/25.png" alt="25" width="25" height="25" onclick="changeImage(this, 25)" id="c25"></td>
+                        <td><img src="artes/35.png" alt="35" width="25" height="25" onclick="changeImage(this, 35)" id="c35"></td>
+                        <td><img src="artes/45.png" alt="45" width="25" height="25" onclick="changeImage(this, 45)" id="c45"></td>
+                        <td><img src="artes/55.png" alt="55" width="25" height="25" onclick="changeImage(this, 55)" id="c55"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="artes/6.png" alt="6" width="25" height="25" onclick="changeImage(this, 6)" id="c6"></td>
+                        <td><img src="artes/16.png" alt="16" width="25" height="25" onclick="changeImage(this, 16)" id="c16"></td>
+                        <td><img src="artes/26.png" alt="26" width="25" height="25" onclick="changeImage(this, 26)" id="c26"></td>
+                        <td><img src="artes/36.png" alt="30" width="25" height="25" onclick="changeImage(this, 36)" id="c36"></td>
+                        <td><img src="artes/46.png" alt="46" width="25" height="25" onclick="changeImage(this, 46)" id="c46"></td>
+                        <td><img src="artes/56.png" alt="56" width="25" height="25" onclick="changeImage(this, 56)" id="c56"></td>
+                    </tr>
+                    <tr>
+                        <td><img src="artes/7.png" alt="7" width="25" height="25" onclick="changeImage(this, 7)" id="c7"></td>
+                        <td><img src="artes/17.png" alt="17" width="25" height="25" onclick="changeImage(this, 17)" id="c17"></td>
+                        <td><img src="artes/27.png" alt="27" width="25" height="25" onclick="changeImage(this, 27)" id="c27"></td>
+                        <td><img src="artes/37.png" alt="30" width="25" height="25" onclick="changeImage(this, 37)" id="c37"></td>
+                        <td><img src="artes/47.png" alt="47" width="25" height="25" onclick="changeImage(this, 47)" id="c47"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><img src="artes/8.png" alt="8" width="25" height="25" onclick="changeImage(this, 8)" id="c8"></td>
+                        <td><img src="artes/18.png" alt="18" width="25" height="25" onclick="changeImage(this, 18)" id="c18"></td>
+                        <td><img src="artes/28.png" alt="28" width="25" height="25" onclick="changeImage(this, 28)" id="c28"></td>
+                        <td><img src="artes/38.png" alt="30" width="25" height="25" onclick="changeImage(this, 38)" id="c38"></td>
+                        <td><img src="artes/48.png" alt="48" width="25" height="25" onclick="changeImage(this, 48)" id="c48"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><img src="artes/9.png" alt="9" width="25" height="25" onclick="changeImage(this, 9)" id="c9"></td>
+                        <td><img src="artes/19.png" alt="19" width="25" height="25" onclick="changeImage(this, 19)" id="c19"></td>
+                        <td><img src="artes/29.png" alt="29" width="25" height="25" onclick="changeImage(this, 29)" id="c29"></td>
+                        <td><img src="artes/39.png" alt="30" width="25" height="25" onclick="changeImage(this, 39)" id="c39"></td>
+                        <td><img src="artes/49.png" alt="49" width="25" height="25" onclick="changeImage(this, 49)" id="c49"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" align="center"><img src="artes/boton_jugar.png" width="240" alt="jugar"  onclick="playNow(this)" onmouseover="this.src='artes/boton_jugar_over.png'" onmouseout="this.src='artes/boton_jugar.png'"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" align="center" border="0">
+                            <table>
+                                <tr>
+                                    <td colspan="5" align="center">HAS SELECCIONADO:</td>            
+                                </tr>
+                                <tr>
+                                    <td><img src="artes/number_ganamas.png" alt="1" width="30" height="30" id=num1></td>
+                                    <td><img src="artes/number_ganamas.png" alt="2" width="30" height="30" id=num2></td>
+                                    <td><img src="artes/number_ganamas.png" alt="3" width="30" height="30" id=num3></td>
+                                    <td><img src="artes/number_ganamas.png" alt="4" width="30" height="30" id=num4></td>
+                                    <td><img src="artes/number_ganamas.png" alt="5" width="30" height="30" id=num5></td>
+                                    <td><img src="artes/number_ganamas.png" alt="6" width="30" height="30" id=num6></td>                                    
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </td>
+            <td style="vertical-align:top">
+
+                <table id="myTickets" style="background-color:#f2f7f7">
+                    <tr>
+                        <td><img src="artes/mis_boletos.png" width="250"></td>            
+                    </tr>
+                    
+                </table>     
+
+            </td>
+        </tr>    
+    </table>  
+    
+    
+  </div> 
+</div>
+
+<div id="dialog" title="Juego">
+    <a href="Juego.html"><p>Regresar</p></a>
+</div>
+
+
+
+</body>
+</html>
